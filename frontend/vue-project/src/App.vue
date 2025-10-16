@@ -1,85 +1,52 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, reactive, computed } from 'vue'
+
+
+const now = new Date();
+const nowStr = now.toLocaleTimeString();
+let timeStr = nowStr;
+const timeStrRef = ref(timeStr);
+
+
+function updateTime(): void {
+	const newTime = new Date();
+	const newTimeStr = newTime.toLocaleTimeString();
+	timeStr = newTimeStr;
+	timeStrRef.value = newTimeStr;
+}
+setInterval(updateTime, 1000);
+
+
+const data = reactive(
+	{
+		radius: Math.round(Math.random() * 10),
+		PI: 3.14
+	}
+);
+
+const area = computed(
+	(): number => {
+		return data.radius * data.radius * data.PI;
+	}
+)
+
+setInterval(
+	(): void => {
+		data.radius = Math.round(Math.random() * 10);
+	}, 1000
+);
 </script>
 
+
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+	<p>現在時刻：{{ timeStr }}</p>
+	<p>現在時刻(ref)：{{ timeStrRef }}</p>
+	<p>半径{{ data.radius }}	の円の面積を円周率{{ data.PI }}で計算すると、{{ area }}</p>
 </template>
 
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+p {
+  color: green;
 }
 </style>
