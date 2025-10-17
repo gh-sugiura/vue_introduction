@@ -1,52 +1,96 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { computed, ref } from 'vue'
+
+const url = ref("https://vuejs.org/");
+const isSendButtonDisabled = ref(true);
+const widthOrHeight = ref("height");
+const widthOrHeightValue = ref(100);
+
+const msg = ref("Hello, World!");
+const isTextColorRed = ref(true);
+const isBgColorBlue = ref(false);
+const styles = ref({
+	textColorRed: false,
+	bgColorBlue: true,
+});
 
 
-const now = new Date();
-const nowStr = now.toLocaleTimeString();
-let timeStr = nowStr;
-const timeStrRef = ref(timeStr);
+const computedStyles = computed(
+	(): { textColorRed: Boolean; bgColorBlue: Boolean; } => {
+		const randText = Math.round(Math.random());
+		let textColorFlag = true;
+		if (randText === 0) {
+			textColorFlag = false;
+		}
 
+		const randBg = Math.round(Math.random());
+		let bgColorFlag = true;
+		if (randBg === 0) {
+			bgColorFlag = false;
+		}
 
-function updateTime(): void {
-	const newTime = new Date();
-	const newTimeStr = newTime.toLocaleTimeString();
-	timeStr = newTimeStr;
-	timeStrRef.value = newTimeStr;
-}
-setInterval(updateTime, 1000);
-
-
-const data = reactive(
-	{
-		radius: Math.round(Math.random() * 10),
-		PI: 3.14
+		return {
+			textColorRed: textColorFlag,
+			bgColorBlue: bgColorFlag,
+		};
 	}
-);
-
-const area = computed(
-	(): number => {
-		return data.radius * data.radius * data.PI;
-	}
-)
-
-setInterval(
-	(): void => {
-		data.radius = Math.round(Math.random() * 10);
-	}, 1000
 );
 </script>
 
 
 <template>
-	<p>現在時刻：{{ timeStr }}</p>
-	<p>現在時刻(ref)：{{ timeStrRef }}</p>
-	<p>半径{{ data.radius }}	の円の面積を円周率{{ data.PI }}で計算すると、{{ area }}</p>
+	<p>
+		<a v-bind:href="url" target="_blank">Vue.jsのサイト</a>
+	</p>
+	<p>
+		<a v-bind:href="url + 'guide/introduction.html'" target="_blank">Vue.jsのガイドページ</a>
+	</p>
+	<p>
+		<button v-bind:disabled="isSendButtonDisabled" type="button">SEND</button>
+	</p>
+	<p>
+		<img v-bind:[widthOrHeight]="widthOrHeightValue" src="./assets/logo.svg" alt="Vue logo" />
+	</p>
+
+
+	<p v-bind:class="{textColorRed: true, bgColorBlue: true}">
+		{{msg}}
+	</p>
+	<p v-bind:class="{textColorRed: isTextColorRed, bgColorBlue: isBgColorBlue}">
+		{{msg}}
+	</p>
+	<p v-bind:class="{textColorPink: true}">
+		{{msg}}
+	</p>
+	<p v-bind:class="{'text-color-pink': true}">
+		{{msg}}
+	</p>
+	<p class="textSize24" v-bind:class="{textColorRed: isTextColorRed, bgColorBlue: isBgColorBlue}">
+		{{msg}}
+	</p>
+	<p class="textSize24" v-bind:class="styles">
+		{{msg}}
+	</p>
+	<p v-bind:class="computedStyles">
+		{{msg}}
+	</p>
 </template>
 
 
 <style scoped>
-p {
-  color: green;
+.textColorRed {
+	color: red;
+}
+
+.text-color-pink {
+	color: pink;
+}
+
+.bgColorBlue {
+	background-color: blue;
+}
+
+.textSize24 {
+	font-size: 24px;
 }
 </style>
