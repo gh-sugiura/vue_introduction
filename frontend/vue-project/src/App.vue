@@ -1,96 +1,81 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-
-const url = ref("https://vuejs.org/");
-const isSendButtonDisabled = ref(true);
-const widthOrHeight = ref("height");
-const widthOrHeightValue = ref(100);
-
-const msg = ref("Hello, World!");
-const isTextColorRed = ref(true);
-const isBgColorBlue = ref(false);
-const styles = ref({
-	textColorRed: false,
-	bgColorBlue: true,
-});
+import { ref } from 'vue'
 
 
-const computedStyles = computed(
-	(): { textColorRed: Boolean; bgColorBlue: Boolean; } => {
-		const randText = Math.round(Math.random());
-		let textColorFlag = true;
-		if (randText === 0) {
-			textColorFlag = false;
-		}
+const randValue = ref("まだです")
+const onButtonClick = (): void => {
+	const rand = Math.round(Math.random() * 10);
+	randValue.value = String(rand);
+}
 
-		const randBg = Math.round(Math.random());
-		let bgColorFlag = true;
-		if (randBg === 0) {
-			bgColorFlag = false;
-		}
 
-		return {
-			textColorRed: textColorFlag,
-			bgColorBlue: bgColorFlag,
-		};
-	}
-);
+const mousePointerX = ref(0);
+const mousePointerY = ref(0);
+const onImgMouseMove = (event: MouseEvent): void => {
+	mousePointerX.value = event.offsetX;
+	mousePointerY.value = event.offsetY;
+};
+
+
+const pBgColor = ref("blue");
+const onPClick = (bgColor: string): void => {
+	pBgColor.value = bgColor;
+};
+
+
+const pMsg = ref("イベント前");
+const pBgColorEvent = ref("green");
+const onPClickWithEvent = (bgColor: string, event: MouseEvent): void => {
+	pBgColorEvent.value = bgColor;
+	pMsg.value = event.timeStamp.toString();
+};
+
+
+const msg = ref("まだです。");
+const onEntryKey = (): void => {
+	msg.value = "エンターキーが押されました。";
+};
+const onRightButtonCkick = (): void => {
+	msg.value = "右クリックされました。";
+};
+function onShiftClick(): void {
+	msg.value = "Shiftキーを押しながらクリックされました。";
+}
 </script>
 
 
 <template>
-	<p>
-		<a v-bind:href="url" target="_blank">Vue.jsのサイト</a>
-	</p>
-	<p>
-		<a v-bind:href="url + 'guide/introduction.html'" target="_blank">Vue.jsのガイドページ</a>
-	</p>
-	<p>
-		<button v-bind:disabled="isSendButtonDisabled" type="button">SEND</button>
-	</p>
-	<p>
-		<img v-bind:[widthOrHeight]="widthOrHeightValue" src="./assets/logo.svg" alt="Vue logo" />
+	<section>
+		<button v-on:click="onButtonClick">クリック</button>
+		<p>result:{{ randValue }}</p>
+	</section>
+
+	<section>
+		<img
+			v-on:mousemove="onImgMouseMove"
+			src="./assets/logo.svg"
+			alt="Vue logo"
+			width="200px"
+		/>
+		<p>マウスポインタの座標: X={{ mousePointerX }} , Y={{ mousePointerY }}</p>
+	</section>
+
+	<p 
+		v-on:click="onPClick('red')"
+		v-bind:style="{ backgroundColor: pBgColor }"
+	>
+		クリックすると背景色が変わります
 	</p>
 
+	<p 
+		v-on:click="onPClickWithEvent('red', $event)"
+		v-bind:style="{ backgroundColor: pBgColorEvent }"
+	>
+		{{ pMsg }}
+	</p>
 
-	<p v-bind:class="{textColorRed: true, bgColorBlue: true}">
-		{{msg}}
-	</p>
-	<p v-bind:class="{textColorRed: isTextColorRed, bgColorBlue: isBgColorBlue}">
-		{{msg}}
-	</p>
-	<p v-bind:class="{textColorPink: true}">
-		{{msg}}
-	</p>
-	<p v-bind:class="{'text-color-pink': true}">
-		{{msg}}
-	</p>
-	<p class="textSize24" v-bind:class="{textColorRed: isTextColorRed, bgColorBlue: isBgColorBlue}">
-		{{msg}}
-	</p>
-	<p class="textSize24" v-bind:class="styles">
-		{{msg}}
-	</p>
-	<p v-bind:class="computedStyles">
-		{{msg}}
-	</p>
+	<p>{{ msg }}</p>
+	<input type="text" v-on:keydown.enter="onEntryKey"/>
+	<button v-on:click.right="onRightButtonCkick">右クリック</button>
+	<button v-on:click.shift="onShiftClick">Shiftキーを押しながらクリック</button>
 </template>
-
-
-<style scoped>
-.textColorRed {
-	color: red;
-}
-
-.text-color-pink {
-	color: pink;
-}
-
-.bgColorBlue {
-	background-color: blue;
-}
-
-.textSize24 {
-	font-size: 24px;
-}
-</style>
