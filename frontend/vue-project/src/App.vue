@@ -1,85 +1,73 @@
 <script setup lang="ts">
-import { ref, watchEffect, watch } from 'vue'
+import {ref, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onRenderTracked, onRenderTriggered} from "vue";
+import type {DebuggerEvent} from "vue";
 
 
-const cocktailNo = ref(1);
-const priceMsg = ref("");
-// watchEffect(
-// 	(): void => {
-// 		priceMsg.value = getCocktailInfo(cocktailNo.value);
-// 	}
-// );
+const hightInit = Math.round(Math.random() * 10);
+const widthInit = Math.round(Math.random() * 10);
+const height = ref(hightInit);
+const width = ref(widthInit);
 
 
-// watch(cocktailNo,
-// 	(): void => {
-// 		priceMsg.value = getCocktailInfo(cocktailNo.value);
-// 	},
-// 	{ immediate: true }
-// );
-
-
-watch(cocktailNo,
-	(newVal: number, oldVal: number): void => {
-		let msg = "前のカクテル：";
-		msg += getCocktailInfo(oldVal);
-		msg += "現在のカクテル：";
-		msg += getCocktailInfo(newVal);
-		priceMsg.value = msg;
-	},
-	{ immediate: true }
+const area = computed(
+	(): number => {
+	  	return height.value * width.value;
+	}
 );
 
 
-// ChatGPTによる修正案
-// 40行目にエラーあり。おそらく、初回の実行ではoldValが存在しないためundefinedになる。
-// watch(
-//   (): number => cocktailNo.value,
-//   (newVal, oldVal) => {
-//     let msg = "前のカクテル：";
-//     msg += getCocktailInfo(oldVal);
-//     msg += "現在のカクテル：";
-//     msg += getCocktailInfo(newVal);
-//     priceMsg.value = msg;
-//   },
-//   { immediate: true }
-// );
+const change = (): void => {
+	height.value = Math.round(Math.random() * 10);
+	width.value = Math.round(Math.random() * 10);
+};
 
 
-
-function getCocktailInfo(cocktailNo: number): string {
-	const cocktailDataListsInit = new Map<number, Cocktail>();
-	cocktailDataListsInit.set(1, {id: 1, name: "ホワイトレディ", price: 1200});
-	cocktailDataListsInit.set(2, {id: 2, name: "ブルーハワイ", price: 1500});
-	cocktailDataListsInit.set(3, {id: 3, name: "ニューヨーク", price: 1100});
-	cocktailDataListsInit.set(4, { id: 4, name: "マティーニ", price: 1500 });
-
-	const cocktail = cocktailDataListsInit.get(cocktailNo);
-	let msg = "該当するカクテルはありません。";
-	if (cocktail !== undefined) {
-		msg = `カクテル：${cocktail.name}、価格：${cocktail.price}円`;
-	}
-	return msg;
-}
-
-
-interface Cocktail {
-	id: number;
-	name: string;
-	price: number;
-}
-
-
-setInterval(
+onBeforeMount(
 	(): void => {
-		cocktailNo.value = Math.floor(Math.random() * 4) + 1;
-	},
-	1000
+		console.log(`BeforeMount called: ${height.value} * ${width.value}`);
+	}
+);
+
+
+onMounted(
+	(): void => {
+		console.log(`Mounted called: ${height.value} * ${width.value}`);
+	}
+);
+
+
+onBeforeUpdate(
+	(): void => {
+		console.log(`BeforeUpdate called: ${height.value} * ${width.value}`);
+	}
+);
+
+
+onUpdated(
+	(): void => {
+		console.log(`Updated called: ${height.value} * ${width.value}`);
+	}
+);
+
+
+onRenderTracked(
+	(event: DebuggerEvent): void => {
+		console.log(`RenderTracked called: ${height.value} * ${width.value}`);
+		console.log(event);
+	}
+);
+
+
+onRenderTriggered(
+	(event: DebuggerEvent): void => {
+		console.log(`RenderTriggered called: ${height.value} * ${width.value}`);
+		console.log(event);
+	}
 );
 </script>
 
 
 <template>
-	<p>Cocktail No:{{ cocktailNo }}</p>
-	<p>{{ priceMsg }}</p>
+	<p>area:{{ area }} where height:{{ height }}, width:{{ width }}</p>
+	<button v-on:click="change">Change</button>
 </template>
