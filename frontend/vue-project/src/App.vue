@@ -11,11 +11,40 @@ const priceMsg = ref("");
 // );
 
 
+// watch(cocktailNo,
+// 	(): void => {
+// 		priceMsg.value = getCocktailInfo(cocktailNo.value);
+// 	},
+// 	{ immediate: true }
+// );
+
+
 watch(cocktailNo,
-	(): void => {
-		priceMsg.value = getCocktailInfo(cocktailNo.value);
-	}
+	(newVal: number, oldVal: number): void => {
+		let msg = "前のカクテル：";
+		msg += getCocktailInfo(oldVal);
+		msg += "現在のカクテル：";
+		msg += getCocktailInfo(newVal);
+		priceMsg.value = msg;
+	},
+	{ immediate: true }
 );
+
+
+// ChatGPTによる修正案
+// 40行目にエラーあり。おそらく、初回の実行ではoldValが存在しないためundefinedになる。
+// watch(
+//   (): number => cocktailNo.value,
+//   (newVal, oldVal) => {
+//     let msg = "前のカクテル：";
+//     msg += getCocktailInfo(oldVal);
+//     msg += "現在のカクテル：";
+//     msg += getCocktailInfo(newVal);
+//     priceMsg.value = msg;
+//   },
+//   { immediate: true }
+// );
+
 
 
 function getCocktailInfo(cocktailNo: number): string {
