@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 
-const cocktailListsInt: string[] = [
-	'Mojito',
-	'Martini',
-	'Margarita',
-	'Old Fashioned',
-	'Daiquiri',
-	'Negroni',
-	'Cosmopolitan',
-	'Pina Colada',
-	'Bloody Mary',
-	'Whiskey Sour'
+const cocktailListsInit: string[] = [
+	"ホワイトレディ",
+	"ブルーハワイ",
+	"ニューヨーク",
+
 ];
-const cocktailLists = ref(cocktailListsInt);
+const cocktailLists = ref(cocktailListsInit);
 
 
 const cocktailListsInit2: {[key: number]: string;} = {
@@ -45,6 +39,10 @@ const whiteLadyInit: {
 };
 const whiteLady = ref(whiteLadyInit);
 
+const changeWhiteLadyPrice = (): void => {
+	whiteLady.value.price = 1500;
+};
+
 
 const cocktailDataListsInit: Cocktail[]  = [
 	{id: 2345, name: "ホワイトレディ", price: 1200},
@@ -54,11 +52,39 @@ const cocktailDataListsInit: Cocktail[]  = [
 ];
 const cocktailDataLists = ref(cocktailDataListsInit);
 
+const cocktail1500 = computed(
+	(): Cocktail[] => {
+		const newList = cocktailDataLists.value.filter(
+			(cocktailItem: Cocktail): boolean => {
+			return cocktailItem.price == 1500;
+			}
+		);
+		return newList;
+	}
+);
+
 interface Cocktail {
 	id: number;
 	name: string;
 	price: number;
 }
+
+
+const changeCocktailList = (): void => {
+	cocktailLists.value = [
+		"マティーニ",
+		"ギムレット",
+		"モスコミュール",
+	];
+};
+
+const addCocktailList = (): void => {
+	cocktailLists.value.push("ブルームーン");
+};
+
+const deleteCocktailList = (): void => {
+	cocktailLists.value.pop();
+};
 </script>
 
 
@@ -99,6 +125,7 @@ interface Cocktail {
 			<dt>{{ key }}</dt>
 			<dd>{{ value }}</dd>
 		</template>
+		<p><button v-on:click="changeWhiteLadyPrice">ホワイトレディの価格を変更</button></p>
 	</dl>
 
 
@@ -113,4 +140,24 @@ interface Cocktail {
 			{{ year + 1965 }}
 		</option>
 	</select>
+
+
+	<section>
+		1500円のカクテル
+		<ul>
+			<li v-for="cocktailList in cocktail1500" v-bind:key="'cocktail1500' + cocktailList.id">
+				Name:{{ cocktailList.name }}, Price:{{ cocktailList.price }}円
+			</li>
+		</ul>
+	</section>
+
+
+	<ul>
+		<li v-for="(cocktailList, index) in cocktailLists" v-bind:key="cocktailList">
+			{{ cocktailList }}(index:{{ index }})
+		</li>
+	</ul>
+	<p><button v-on:click="changeCocktailList">カクテルリストを変更</button></p>
+	<p><button v-on:click="addCocktailList">ブルームーン追加</button></p>
+	<p><button v-on:click="deleteCocktailList">末尾のカクテルを削除</button></p>
 </template>
