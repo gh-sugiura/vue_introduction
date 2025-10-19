@@ -28,7 +28,7 @@ const area = computed(
 	(): number => {
 		return data.radius * data.radius * data.PI;
 	}
-)
+);
 
 setInterval(
 	(): void => {
@@ -41,7 +41,7 @@ setInterval(
 <template>
 	<p>現在時刻：{{ timeStr }}</p>
 	<p>現在時刻(ref)：{{ timeStrRef }}</p>
-	<p>半径{{ data.radius }}	の円の面積を円周率{{ data.PI }}で計算すると、{{ area }}</p>
+	<p>半径{{ data.radius }}の円の面積を円周率{{ data.PI }}で計算すると、{{ area }}</p>
 </template>
 
 
