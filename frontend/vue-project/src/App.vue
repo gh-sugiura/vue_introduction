@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { computed, ref, watchEffect } from 'vue'
+import { ref, watchEffect, watch } from 'vue'
 
 
 const cocktailNo = ref(1);
 const priceMsg = ref("");
-watchEffect(
+// watchEffect(
+// 	(): void => {
+// 		priceMsg.value = getCocktailInfo(cocktailNo.value);
+// 	}
+// );
+
+
+watch(cocktailNo,
 	(): void => {
-		priceMsg.value = getCocktailInfo(cocktailNo.value)	;
+		priceMsg.value = getCocktailInfo(cocktailNo.value);
 	}
 );
 
@@ -32,6 +39,7 @@ interface Cocktail {
 	name: string;
 	price: number;
 }
+
 
 setInterval(
 	(): void => {
