@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// 参考書の書き方
 // interface Props {
 //     title: string;
 //     content: string;
