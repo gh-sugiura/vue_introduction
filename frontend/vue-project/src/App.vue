@@ -1,73 +1,38 @@
-<script setup lang="ts">
-import {ref, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onRenderTracked, onRenderTriggered} from "vue";
-import type {DebuggerEvent} from "vue";
+<script lang="ts">
+import { defineComponent, reactive, computed, toRefs } from "vue";
 
 
-const hightInit = Math.round(Math.random() * 10);
-const widthInit = Math.round(Math.random() * 10);
-const height = ref(hightInit);
-const width = ref(widthInit);
+export default defineComponent({
+	name: "App",
+	setup() {
+		const data = reactive(
+			{
+				radius: Math.round(Math.random() * 10),
+				PI: 3.14
+			}
+		);
 
+		const area = computed(
+			(): number => {
+				return data.radius * data.radius * data.PI;
+			}
+		);
 
-const area = computed(
-	(): number => {
-	  	return height.value * width.value;
+		setInterval(
+			(): void => {
+				data.radius = Math.round(Math.random() * 10);
+			}, 1000
+		);
+
+		return {
+			...toRefs(data),
+			area
+		};
 	}
-);
-
-
-const change = (): void => {
-	height.value = Math.round(Math.random() * 10);
-	width.value = Math.round(Math.random() * 10);
-};
-
-
-onBeforeMount(
-	(): void => {
-		console.log(`BeforeMount called: ${height.value} * ${width.value}`);
-	}
-);
-
-
-onMounted(
-	(): void => {
-		console.log(`Mounted called: ${height.value} * ${width.value}`);
-	}
-);
-
-
-onBeforeUpdate(
-	(): void => {
-		console.log(`BeforeUpdate called: ${height.value} * ${width.value}`);
-	}
-);
-
-
-onUpdated(
-	(): void => {
-		console.log(`Updated called: ${height.value} * ${width.value}`);
-	}
-);
-
-
-onRenderTracked(
-	(event: DebuggerEvent): void => {
-		console.log(`RenderTracked called: ${height.value} * ${width.value}`);
-		console.log(event);
-	}
-);
-
-
-onRenderTriggered(
-	(event: DebuggerEvent): void => {
-		console.log(`RenderTriggered called: ${height.value} * ${width.value}`);
-		console.log(event);
-	}
-);
+});
 </script>
 
 
 <template>
-	<p>area:{{ area }} where height:{{ height }}, width:{{ width }}</p>
-	<button v-on:click="change">Change</button>
+	<p>半径{{ radius }}の円の面積を円周率{{ PI }}で計算すると、{{ area }}</p>
 </template>
