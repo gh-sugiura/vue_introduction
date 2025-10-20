@@ -1,37 +1,23 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-
-
-export default defineComponent({
-	name: "App",
-	data() {
-		return {
-			height: Math.round(Math.random() * 10),
-			width: Math.round(Math.random() * 10),
-		};
-	},
-
-	computed: {
-		area(): number {
-			return this.height * this.width;
-		},
-	},
-
-	methods: {
-		change(): void {
-			this.height = Math.round(Math.random() * 10);
-			this.width = Math.round(Math.random() * 10);
-		},
-	},
-
-	updated(): void {
-		console.log(`Updated called: ${this.height} * ${this.width}`);
-	},
-});
+<script setup lang="ts">
+import OneInfo from './components/OneInfo.vue';
 </script>
 
 
 <template>
-	<p>area:{{ area }} where height:{{ height }}, width:{{ width }}</p>
-	<button v-on:click="change">Change</button>
+	<h1>Props基礎</h1>
+	<section>
+		<h2>属性に直接記述</h2>
+		<OneInfo
+			title="Propsの利用"
+			content="子コンポーネントにデータを渡すにはPropsを利用する。"
+		/>
+	</section>
 </template>
+
+
+<style>
+section {
+	border: blue 1px solid;
+	margin: 10px;
+}
+</style>
