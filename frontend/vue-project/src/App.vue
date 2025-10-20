@@ -1,38 +1,37 @@
 <script lang="ts">
-import { defineComponent, reactive, computed, toRefs } from "vue";
+import { defineComponent } from "vue";
 
 
 export default defineComponent({
 	name: "App",
-	setup() {
-		const data = reactive(
-			{
-				radius: Math.round(Math.random() * 10),
-				PI: 3.14
-			}
-		);
-
-		const area = computed(
-			(): number => {
-				return data.radius * data.radius * data.PI;
-			}
-		);
-
-		setInterval(
-			(): void => {
-				data.radius = Math.round(Math.random() * 10);
-			}, 1000
-		);
-
+	data() {
 		return {
-			...toRefs(data),
-			area
+			height: Math.round(Math.random() * 10),
+			width: Math.round(Math.random() * 10),
 		};
-	}
+	},
+
+	computed: {
+		area(): number {
+			return this.height * this.width;
+		},
+	},
+
+	methods: {
+		change(): void {
+			this.height = Math.round(Math.random() * 10);
+			this.width = Math.round(Math.random() * 10);
+		},
+	},
+
+	updated(): void {
+		console.log(`Updated called: ${this.height} * ${this.width}`);
+	},
 });
 </script>
 
 
 <template>
-	<p>半径{{ radius }}の円の面積を円周率{{ PI }}で計算すると、{{ area }}</p>
+	<p>area:{{ area }} where height:{{ height }}, width:{{ width }}</p>
+	<button v-on:click="change">Change</button>
 </template>
