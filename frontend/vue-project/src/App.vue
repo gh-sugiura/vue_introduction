@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import OneInfo from './components/OneInfo.vue';
+import OneMember from './components/OneMember.vue';
 
 
 const weatherListsInit: Weather[]  = [
@@ -15,6 +16,34 @@ interface Weather {
 	title: string;
 	content: string;
 };
+
+
+const memberListsInit: Member[]  = [
+	{id: 1, name: "田中", email: "tanaka@example.com", points: 35, note: "初回特典あり"},
+	{id: 2, name: "鈴木", email: "suzuki@example.com", points: 53},
+	{id: 3, name: "伊藤", email: "ito@example.com", points: 80},
+];
+const memberLists = ref(memberListsInit);
+
+interface Member {
+	id: number;
+    name: string;
+    email: string;
+    points: number;
+    note?: string;
+};
+
+
+
+const totalPoints = computed(
+	(): number => {
+		let total = 0;
+		for (const member of memberLists.value.values()) {
+			total += member.points;
+		}
+		return total;
+	}
+);
 </script>
 
 
@@ -27,6 +56,20 @@ interface Weather {
 			v-bind:key="weatherList.id"
 			v-bind:title="weatherList.title"
 			v-bind:content="weatherList.content"
+		/>
+	</section>
+
+	<section>
+		<h1>会員リスト</h1>
+		<p>全会員の保有ポイントの合計: {{totalPoints}}</p>
+		<OneMember
+			v-for="member in memberLists"
+			v-bind:key="member.id"
+			v-bind:id="member.id"
+			v-bind:name="member.name"
+			v-bind:email="member.email"
+			v-bind:points="member.points"
+			v-bind:note="member.note"
 		/>
 	</section>
 </template>
