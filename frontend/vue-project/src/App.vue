@@ -43,16 +43,6 @@ const totalPoints = computed(
 		return total;
 	}
 );
-
-
-// const onIncrementPoint = (id: number): void => {
-// 	for (const member of memberLists.value) {
-// 		if (member.id === id) {
-// 			member.points++;
-// 			break;
-// 		}
-// 	}
-// };
 </script>
 
 
