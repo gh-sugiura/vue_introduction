@@ -15,16 +15,18 @@ const memberLists = reactive(
 provide("memberLists", memberLists);
 
 
-const taro = ref("田中太郎");
+const tanaka = ref("田中太郎");
+const suzuki = ref("鈴木次郎");
 </script>
 
 
 <template>
 	<section>
 		<h2>Slotの利用</h2>
-		<OneSection v-bind:name="taro">
+		<OneSection v-bind:name="tanaka">
 			<p>連絡がつきません</p>
 		</OneSection>
+		<OneSection v-bind:name="suzuki"></OneSection>
 	</section>
 	<BaseSection />
 </template>
