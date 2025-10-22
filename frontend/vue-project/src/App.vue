@@ -1,37 +1,20 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { reactive, provide } from 'vue';
+import BaseSection from './components/BaseSection.vue';
+import type { Member } from './stores/interfaces';
 
 
-export default defineComponent({
-	name: "App",
-	data() {
-		return {
-			height: Math.round(Math.random() * 10),
-			width: Math.round(Math.random() * 10),
-		};
-	},
-
-	computed: {
-		area(): number {
-			return this.height * this.width;
-		},
-	},
-
-	methods: {
-		change(): void {
-			this.height = Math.round(Math.random() * 10);
-			this.width = Math.round(Math.random() * 10);
-		},
-	},
-
-	updated(): void {
-		console.log(`Updated called: ${this.height} * ${this.width}`);
-	},
-});
+const memberLists = reactive(
+	new Map<number, Member>([
+		[1, { id: 1, name: "田中", email: "tanaka@example.com", points: 35, note: "初回特典あり" }],
+		[2, { id: 2, name: "鈴木", email: "suzuki@example.com", points: 53 }],
+		[3, { id: 3, name: "伊藤", email: "ito@example.com", points: 80 }],
+	])
+);
+provide("memberLists", memberLists);
 </script>
 
 
 <template>
-	<p>area:{{ area }} where height:{{ height }}, width:{{ width }}</p>
-	<button v-on:click="change">Change</button>
+	<BaseSection />
 </template>
