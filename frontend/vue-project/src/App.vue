@@ -34,7 +34,6 @@ interface Member {
 };
 
 
-
 const totalPoints = computed(
 	(): number => {
 		let total = 0;
@@ -44,6 +43,16 @@ const totalPoints = computed(
 		return total;
 	}
 );
+
+
+const onIncrementPoint = (id: number): void => {
+	for (const member of memberLists.value) {
+		if (member.id === id) {
+			member.points++;
+			break;
+		}
+	}
+};
 </script>
 
 
@@ -70,6 +79,7 @@ const totalPoints = computed(
 			v-bind:email="member.email"
 			v-bind:points="member.points"
 			v-bind:note="member.note"
+			v-on:incrementPoint="onIncrementPoint"
 		/>
 	</section>
 </template>
