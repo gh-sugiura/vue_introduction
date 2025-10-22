@@ -15,12 +15,18 @@ const props = withDefaults(
 
 
 const emit = defineEmits<{
-    (event: "incrementPoint", id: number): void
+    // (event: "incrementPoint", id: number): void
+    (event: "update:points", points: number): void
 }>();
 
 
-const pointUp = (): void => {
-    emit("incrementPoint", props.id);
+// const pointUp = (): void => {
+//     emit("incrementPoint", props.id);
+// };
+const onInput = (event: Event): void => {
+    const element = event.target as HTMLInputElement;
+    const inputPoints = Number(element.value);
+    emit("update:points", inputPoints);
 };
 </script>
 
@@ -34,11 +40,14 @@ const pointUp = (): void => {
 			<dt>メールアドレス</dt>
 			<dd>{{ props.email }}</dd>
 			<dt>保有ポイント</dt>
-			<dd>{{ props.points }}</dd>
+			<!-- <dd>{{ props.points }}</dd> -->
+			<dd>
+                <input type="number" v-bind:value="points" v-on:input="onInput">
+            </dd>
 			<dt>備考</dt>
 			<dd>{{ props.note }}</dd>
 		</dl>
-		<button v-on:click="pointUp">ポイント加算</button>
+		<!-- <button v-on:click="pointUp">ポイント加算</button> -->
 	</section>
 </template>
 
