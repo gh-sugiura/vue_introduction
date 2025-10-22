@@ -1,46 +1,47 @@
 <script setup lang="ts">
+import { computed, inject } from 'vue';
+import type { Member } from '../stores/interfaces';
 
-const props = withDefaults(
-    defineProps<{
-        id: number;
-        name: string;
-        email: string;
-        points: number;
-        note?: string;
-    }>(),
-    {
-        note: "-----"
+
+const props = defineProps<{
+    id: number;
+}>();
+
+
+const memberLists = inject("memberLists") as Map<number, Member>;
+const member = computed(
+    (): Member => {
+        return memberLists.get(props.id) as Member;
     }
 );
 
 
-const emit = defineEmits<{
-    (event: "update:points", points: number): void
-}>();
-
-
-const onInput = (event: Event): void => {
-    const element = event.target as HTMLInputElement;
-    const inputPoints = Number(element.value);
-    emit("update:points", inputPoints);
-};
+const localNote = computed(
+    (): string => {
+        let localNote = member.value.note;
+        if (localNote === undefined) {
+            localNote = "-----";
+        }
+        return localNote;
+    }
+);
 </script>
 
 
 <template>
     <section class="box">
-		<h4>{{ props.name }}さんの情報</h4>
+		<h4>{{ member.name }}さんの情報</h4>
 		<dl>
 			<dt>ID</dt>
-			<dd>{{ props.id }}</dd>
+			<dd>{{ id }}</dd>
 			<dt>メールアドレス</dt>
-			<dd>{{ props.email }}</dd>
+			<dd>{{ member.email }}</dd>
 			<dt>保有ポイント</dt>
 			<dd>
-                <input type="number" v-bind:value="points" v-on:input="onInput">
+                <input type="number" v-model.number="member.points">
             </dd>
 			<dt>備考</dt>
-			<dd>{{ props.note }}</dd>
+			<dd>{{ localNote }}</dd>
 		</dl>
 	</section>
 </template>
