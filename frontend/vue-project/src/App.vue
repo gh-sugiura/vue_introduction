@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// commit test
 import { reactive, provide } from "vue";
 import {RouterView} from "vue-router";
 import type { Member } from '@/stores/interfaces';
