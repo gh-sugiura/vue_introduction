@@ -16,6 +16,8 @@ provide("memberLists", memberLists);
 
 
 const tanaka = ref("田中太郎");
+const tanakaProblemLists: string[] = ["電話が通じません", "留守です"];
+const tanakaProblems = ref(tanakaProblemLists);
 const suzuki = ref("鈴木次郎");
 </script>
 
@@ -24,7 +26,16 @@ const suzuki = ref("鈴木次郎");
 	<section>
 		<h2>Slotの利用</h2>
 		<OneSection v-bind:name="tanaka">
-			<p>{{ tanaka }}さんは連絡がつきません</p>
+			<template v-slot:default>
+				<p>以下の問題があります</p>
+			</template>
+			<template v-slot:detail>
+				<ul>
+					<li v-for="tanakaProblem in tanakaProblems" v-bind:key="tanakaProblem">
+						{{tanakaProblem}}
+					</li>
+				</ul>
+			</template>
 		</OneSection>
 		<OneSection v-bind:name="suzuki"></OneSection>
 	</section>

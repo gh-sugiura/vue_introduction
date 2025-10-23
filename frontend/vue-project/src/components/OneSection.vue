@@ -11,7 +11,10 @@ const props = defineProps<{
         <slot>
             <p>{{ props.name }}さんは連絡できます</p>
         </slot>
-        <slot></slot>
+        <h4>詳細内容</h4>
+        <slot name="detail">
+            <p>現在、連絡可能です</p>
+        </slot>
 	</section>
 </template>
 
