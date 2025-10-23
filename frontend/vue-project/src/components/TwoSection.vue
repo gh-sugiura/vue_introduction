@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 
-const props = defineProps<{
-    name: string;
-}>();
-
 
 interface TanakaInfo {
   name: string;
@@ -20,15 +16,11 @@ const tanakaInfo = reactive<TanakaInfo>({
 
 <template>
 	<section class="box">
-		<h1>{{ props.name }}さんの状況</h1>
-        <slot>
-            <p>{{ props.name }}さんは連絡できます</p>
+        <slot v-bind:tanakaInfo="tanakaInfo">
+            <h1>{{ tanakaInfo.name }}さんの状況</h1>
+            <p>{{ tanakaInfo.state }}</p>
         </slot>
-        <h4>詳細内容</h4>
-        <slot name="detail">
-            <p>現在、連絡可能です</p>
-        </slot>
-	</section>
+    </section>
 </template>
 
 

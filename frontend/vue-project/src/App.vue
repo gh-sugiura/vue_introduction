@@ -2,6 +2,7 @@
 import { reactive, provide, ref } from 'vue';
 import BaseSection from './components/BaseSection.vue';
 import OneSection from './components/OneSection.vue';
+import TwoSection from './components/TwoSection.vue';
 import type { Member } from './stores/interfaces';
 
 
@@ -39,5 +40,23 @@ const suzuki = ref("鈴木次郎");
 		</OneSection>
 		<OneSection v-bind:name="suzuki"></OneSection>
 	</section>
-	<BaseSection />
+
+
+	<section>
+		<TwoSection>
+			<template v-slot:default="slotProps">
+				<dl>
+					<dt>名前</dt>
+					<dd>{{slotProps.tanakaInfo.name}}</dd>
+					<dt>状況</dt>
+					<dd>{{slotProps.tanakaInfo.state}}</dd>
+				</dl>
+			</template>
+		</TwoSection>
+	</section>
+
+	<section>
+		<h2>Provide / Injectの利用</h2>
+		<BaseSection />
+	</section>
 </template>
