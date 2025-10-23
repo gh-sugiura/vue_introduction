@@ -1,13 +1,20 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
-import AppTop from '@/views/AppTop.vue'
+import { createRouter, createWebHistory } from "vue-router"
+import type { RouteRecordRaw } from "vue-router"
+import AppTop from "@/views/AppTop.vue"
 
 
 const routeSettings: RouteRecordRaw[] = [
 	{
-		path: '/',
-		name: 'AppTop',
+		path: "/",
+		name: "AppTop",
 		component: AppTop,
+	},
+	{
+		path: "/member/memberList",
+		name: "MemberList",
+		component: () => {
+			return import("@/views/member/MemberList.vue");
+		}
 	},
 ];
 

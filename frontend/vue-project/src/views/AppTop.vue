@@ -1,6 +1,6 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import {RouterLink} from "vue-router";
-</script> -->
+</script>
 
 
 <template>
@@ -8,11 +8,17 @@ import {RouterLink} from "vue-router";
     <nav id="breadcrumbs">
         <ul>
             <li>
-                <RouterLink to="/">TOP</RouterLink>
+                <RouterLink v-bind:to="{ name: 'AppTop' }">
+                    TOP
+                </RouterLink>
             </li>
         </ul>
     </nav>
     <section>
-        <p>会員管理はこちら</p>
+        <p>
+            <RouterLink v-bind:to="{ name: 'MemberList' }">
+                会員管理はこちら
+            </RouterLink>
+        </p>
     </section>
 </template>
