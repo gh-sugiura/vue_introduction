@@ -27,6 +27,13 @@ const routeSettings: RouteRecordRaw[] = [
 			return { id: id };
 		},
 	},
+	{
+		path: "/member/memberRegister",
+		name: "MemberRegister",
+		component: () => {
+			return import("@/views/member/MemberRegister.vue");
+		},
+	},
 ];
 
 

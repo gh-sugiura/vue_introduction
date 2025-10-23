@@ -13,15 +13,20 @@ const memberLists = inject("memberLists") as Map<number, Member>;
     <nav id="breadcrumbs">
         <ul>
             <li>
-                <RouterLink v-bind:to="{ name: 'AppTop' }">
-                    TOP
-                </RouterLink>
+                <RouterLink v-bind:to="{ name: 'AppTop' }">TOP</RouterLink>
             </li>
             <li>会員リスト</li>
         </ul>
     </nav>
     <section>
         <h2>会員リスト</h2>
+        <p>
+            新規登録は
+            <RouterLink v-bind:to="{ name: 'MemberRegister' }">
+                こちら
+            </RouterLink>
+            から
+        </p>
         <section>
             <ul>
                 <li
