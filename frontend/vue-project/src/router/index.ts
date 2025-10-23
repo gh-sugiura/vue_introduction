@@ -14,7 +14,18 @@ const routeSettings: RouteRecordRaw[] = [
 		name: "MemberList",
 		component: () => {
 			return import("@/views/member/MemberList.vue");
-		}
+		},
+	},
+	{
+		path: "/member/memberdetail/:id",
+		name: "MemberDetail",
+		component: () => {
+			return import("@/views/member/MemberDetail.vue");
+		},
+		props: (route) => {
+			const id = Number(route.params.id);
+			return { id: id };
+		},
 	},
 ];
 

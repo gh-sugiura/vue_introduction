@@ -7,11 +7,7 @@ import {RouterLink} from "vue-router";
     <h1>TOP</h1>
     <nav id="breadcrumbs">
         <ul>
-            <li>
-                <RouterLink v-bind:to="{ name: 'AppTop' }">
-                    TOP
-                </RouterLink>
-            </li>
+            <li>TOP</li>
         </ul>
     </nav>
     <section>
