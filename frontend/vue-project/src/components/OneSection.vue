@@ -9,8 +9,9 @@ const props = defineProps<{
 	<section class="box">
 		<h1>{{ props.name }}さんの状況</h1>
         <slot>
-            <p>連絡できます</p>
+            <p>{{ props.name }}さんは連絡できます</p>
         </slot>
+        <slot></slot>
 	</section>
 </template>
 

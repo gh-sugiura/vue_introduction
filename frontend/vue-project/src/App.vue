@@ -24,7 +24,7 @@ const suzuki = ref("鈴木次郎");
 	<section>
 		<h2>Slotの利用</h2>
 		<OneSection v-bind:name="tanaka">
-			<p>連絡がつきません</p>
+			<p>{{ tanaka }}さんは連絡がつきません</p>
 		</OneSection>
 		<OneSection v-bind:name="suzuki"></OneSection>
 	</section>
