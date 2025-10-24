@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import type { Member } from "@/stores/interfaces";
+import { useMembersStore } from "@/stores/members";
 
 
-const memberLists = inject("memberLists") as Map<number, Member>;
+const membersStore = useMembersStore();
+const memberList = computed(
+    (): Map<number, Member> => {
+        return membersStore.memberList;
+    }
+);
 </script>
 
 
@@ -30,11 +36,11 @@ const memberLists = inject("memberLists") as Map<number, Member>;
         <section>
             <ul>
                 <li
-                    v-for="[id, memberList] in memberLists"
+                    v-for="[id, member] in memberList"
                     v-bind:key="id"
                 >
                     <RouterLink v-bind:to="{ name: 'MemberDetail', params: { id: id } }">
-                        ID:{{ id }}、名前:{{ memberList.name }}さん
+                        ID:{{ id }}、名前:{{ member.name }}さん
                     </RouterLink>
                 </li>
             </ul>

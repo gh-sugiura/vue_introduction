@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import type { Member } from "@/stores/interfaces";
+import { useMembersStore } from "@/stores/members";
 
 
 const props = defineProps<{
@@ -9,10 +10,10 @@ const props = defineProps<{
 }>();
 
 
-const memberLists = inject("memberLists") as Map<number, Member>;
-const memberDetail = computed(
+const membersStore = useMembersStore();
+const member = computed(
 	(): Member => {
-		return memberLists.get(props.id) as Member;
+		return membersStore.getById(props.id);
 	}
 );
 
@@ -20,8 +21,8 @@ const memberDetail = computed(
 const localNote = computed(
     (): string => {
         let localNote = "-----";
-        if (memberDetail.value.note !== undefined) {
-            localNote = memberDetail.value.note;
+        if (member.value.note !== undefined) {
+            localNote = member.value.note;
         }
         return localNote;
     }
@@ -50,13 +51,13 @@ const localNote = computed(
 		<h2>会員詳細情報</h2>
 		<dl>
 			<dt>ID</dt>
-			<dd>{{memberDetail.id}}</dd>
+			<dd>{{member.id}}</dd>
 			<dt>名前</dt>
-			<dd>{{memberDetail.name}}</dd>
+			<dd>{{member.name}}</dd>
 			<dt>メールアドレス</dt>
-			<dd>{{memberDetail.email}}</dd>
+			<dd>{{member.email}}</dd>
 			<dt>保有ポイント</dt>
-			<dd>{{memberDetail.points}}</dd>
+			<dd>{{member.points}}</dd>
 			<dt>備考</dt>
 			<dd>{{localNote}}</dd>
 		</dl>

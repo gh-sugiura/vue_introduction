@@ -1,32 +1,51 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useCounterStore } from "@/stores/counter";
+import { RouterView } from "vue-router";
+import { useMembersStore } from "@/stores/members";
 
 
-const counterStore = useCounterStore();
-const count = computed(
-	(): number => {
-		return counterStore.counter;
-	}
-);
-
-
-const doubleCount = computed(
-	(): number => {
-		return counterStore.doubleCount;
-	}
-);
-
-
-const onIncrimentClick = () => {
-	counterStore.incrementCount();
-};
+const membersStore = useMembersStore();
+membersStore.initList();
 </script>
 
 
-
 <template>
-	<p>現在のポイント：{{ count }}</p>
-	<p>現在のポイントx2：{{ doubleCount }}</p>
-	<button v-on:click="onIncrimentClick">加算</button>
+	<header>
+		<h1>Pinia サンプル</h1>
+	</header>
+	<main>
+		<RouterView />
+	</main>
 </template>
+
+
+<style>
+main {
+	border: blue 1px solid;
+	padding: 10px;
+}
+
+#breadcrumbs ul li {
+	display: inline;
+	list-style-type: none;
+}
+
+#breadcrumbs {
+	margin-left: 0px;
+}
+
+#breadcrumbs ul {
+	padding-left: 0px;
+}
+
+#breadcrumbs ul .current {
+	color: red;
+}
+
+#breadcrumbs ul li:before {
+	content: " > ";
+}
+
+#breadcrumbs ul li:first-child:before {
+	content: none;
+}
+</style>
