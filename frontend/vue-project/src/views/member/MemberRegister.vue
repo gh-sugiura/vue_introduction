@@ -19,7 +19,7 @@ const member: Member = reactive(
 
 
 const onRegister = (): void => {
-	membersStore.registerMember(member);
+	membersStore.insertMember(member);
 	router.push({ name: "MemberList" });
 };
 </script>
