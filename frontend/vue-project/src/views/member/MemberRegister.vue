@@ -18,10 +18,24 @@ const member: Member = reactive(
 );
 
 
-const onRegister = (): void => {
-	membersStore.insertMember(member);
-	router.push({ name: "MemberList" });
+const onRegister = async (): Promise<void> => {
+	try {
+		const result = await membersStore.insertMember(member);
+		if (result) {
+			await router.push({ name: "MemberList" });
+		}
+	} catch (error) {
+		console.error("データ登録失敗", error);
+	} finally {
+		console.log("finallyの練習");
+	}
 };
+
+
+// const onRegister = (): void => {
+// 	membersStore.insertMember(member);
+// 	router.push({ name: "MemberList" });
+// };
 </script>
 
 
