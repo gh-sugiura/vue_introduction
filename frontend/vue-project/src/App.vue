@@ -37,7 +37,7 @@ const onShowButtonClick = (): void => {
 			=<span data-testid="answer">{{ answer }}</span>
 		</p>
 		<p>
-			隠し領域を
+			隠し領域(data-testid="invisible")を
 			<button data-testid="showButton" v-on:click="onShowButtonClick">表示</button>
 		</p>
 		<p v-if="isVisible" data-testid="invisible">
