@@ -21,7 +21,12 @@ const answer = computed(
 		<RouterView />
 	</main>
 	<div>
-		<p>{{ num1 }} ÷ {{ num2 }} = {{ answer }}</p>
+		<p>
+			<input type="number" data-testid="num1" v-model="num1">
+			÷
+			<input type="number" data-testid="num2" v-model="num2">	
+			=<span data-testid="answer">{{ answer }}</span>
+		</p>
 	</div>
 </template>
 
