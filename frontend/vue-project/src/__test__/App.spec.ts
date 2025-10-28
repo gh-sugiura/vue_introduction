@@ -28,5 +28,28 @@ describe(
                 expect(actual).toBe(expected);
             }
         );
+
+
+        test(
+            "隠し領域非表示の画面表示テスト",
+            () => {
+                const wrapper = mount(App);
+                const actual = wrapper.find(`[data-testid="invisible"]`).exists();
+                const expected = false;
+                expect(actual).toBe(expected);
+            }
+        );
+
+
+        test(
+            "隠し領域表示の画面表示テスト",
+            async () => {
+                const wrapper = mount(App);
+                await wrapper.get(`[data-testid="showButton"]`).trigger("click");
+                const actual = wrapper.find(`[data-testid="invisible"]`).exists();
+                const expected = true;
+                expect(actual).toBe(expected);
+            }
+        );
     }
 );
