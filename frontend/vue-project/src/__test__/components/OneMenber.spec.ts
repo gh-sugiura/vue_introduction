@@ -2,6 +2,7 @@ import { describe, test, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import OneMember from '@/components/OneMember.vue';
 
+
 describe("OneMember.vueのテスト",
     () => {
         test("備考データがある場合のPropsの表示テスト",
@@ -40,5 +41,23 @@ describe("OneMember.vueのテスト",
                 expect(actualText).toContain("-----");
             }
         );
+
+        test("[ポイント加算]ボタンクリックのテスト(Emitのテスト)",
+            async () => {
+                const propsData = {
+                    id: 1,
+                    name: "田中",
+                    email: "tanaka@example.com",
+                    points: 35,
+                    note: "初回特典あり",
+                };
+                const wrapper = mount(OneMember, { props: propsData });
+                await wrapper.get("button").trigger("click");
+                const incrementPointEvent = wrapper.emitted("incrementPoint");
+                expect(incrementPointEvent).toHaveLength(1);
+                const expectedincrementPointEvent = [[propsData.id]];
+                expect(incrementPointEvent).toEqual(expectedincrementPointEvent);
+            }
+        )
     }
 );
