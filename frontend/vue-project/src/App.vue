@@ -45,14 +45,14 @@ const totalPoints = computed(
 );
 
 
-// const onIncrementPoint = (id: number): void => {
-// 	for (const member of memberLists.value) {
-// 		if (member.id === id) {
-// 			member.points++;
-// 			break;
-// 		}
-// 	}
-// };
+const onIncrementPoint = (id: number): void => {
+	for (const member of memberLists.value) {
+		if (member.id === id) {
+			member.points++;
+			break;
+		}
+	}
+};
 </script>
 
 
@@ -79,6 +79,7 @@ const totalPoints = computed(
 			v-bind:email="member.email"
 			v-model:points="member.points"
 			v-bind:note="member.note"
+			v-on:incrementPoint="onIncrementPoint"
 		/>
 	</section>
 </template>

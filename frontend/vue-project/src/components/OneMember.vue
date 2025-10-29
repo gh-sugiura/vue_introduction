@@ -1,33 +1,41 @@
 <script setup lang="ts">
+import { computed } from "vue";
 
-const props = withDefaults(
-    defineProps<{
+
+const props = defineProps<{
         id: number;
         name: string;
         email: string;
         points: number;
         note?: string;
-    }>(),
-    {
-        note: "-----"
-    }
+}>();
+
+
+const localNote = computed(
+	(): string => {
+		let localNote = props.note;
+		if(localNote == undefined) {
+			localNote = "-----";
+		}
+		return localNote;
+	}
 );
 
 
 const emit = defineEmits<{
-    // (event: "incrementPoint", id: number): void
-    (event: "update:points", points: number): void
+    (event: "incrementPoint", id: number): void
+    // (event: "update:points", points: number): void
 }>();
 
 
-// const pointUp = (): void => {
-//     emit("incrementPoint", props.id);
-// };
-const onInput = (event: Event): void => {
-    const element = event.target as HTMLInputElement;
-    const inputPoints = Number(element.value);
-    emit("update:points", inputPoints);
+const pointUp = (): void => {
+    emit("incrementPoint", props.id);
 };
+// const onInput = (event: Event): void => {
+//     const element = event.target as HTMLInputElement;
+//     const inputPoints = Number(element.value);
+//     emit("update:points", inputPoints);
+// };
 </script>
 
 
@@ -40,14 +48,14 @@ const onInput = (event: Event): void => {
 			<dt>メールアドレス</dt>
 			<dd>{{ props.email }}</dd>
 			<dt>保有ポイント</dt>
-			<!-- <dd>{{ props.points }}</dd> -->
-			<dd>
+			<dd>{{ props.points }}</dd>
+			<!-- <dd>
                 <input type="number" v-bind:value="points" v-on:input="onInput">
-            </dd>
+            </dd> -->
 			<dt>備考</dt>
-			<dd>{{ props.note }}</dd>
+			<dd>{{ localNote }}</dd>
 		</dl>
-		<!-- <button v-on:click="pointUp">ポイント加算</button> -->
+		<button v-on:click="pointUp">ポイント加算</button>
 	</section>
 </template>
 
