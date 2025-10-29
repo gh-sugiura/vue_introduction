@@ -30,12 +30,6 @@ const onRegister = async (): Promise<void> => {
 		console.log("finallyの練習");
 	}
 };
-
-
-// const onRegister = (): void => {
-// 	membersStore.insertMember(member);
-// 	router.push({ name: "MemberList" });
-// };
 </script>
 
 
